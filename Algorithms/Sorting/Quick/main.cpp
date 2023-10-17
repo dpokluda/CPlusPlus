@@ -7,8 +7,8 @@ void Swap(std::vector<int> &data, int first, int second);
 
 int Partition(std::vector<int> &data, int left, int right);
 
-std::vector<int> Sort(const std::vector<int> data) {
-    std::vector<int> arr = data;
+std::vector<int> Sort(const std::vector<int> &data) {
+    std::vector<int> arr{data};
 
     QuickSort(arr, 0, arr.size() - 1);
     return arr;

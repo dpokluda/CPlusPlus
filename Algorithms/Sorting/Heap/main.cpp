@@ -5,11 +5,11 @@ void Swap(std::vector<int> &arr, int first, int second);
 
 void Heapify(std::vector<int> &arr, int n, int i);
 
-std::vector<int> Sort(const std::vector<int> data) {
-    std::vector<int> arr = data;
+std::vector<int> Sort(const std::vector<int> &data) {
+    std::vector<int> arr{data};
     int n = arr.size();
 
-    // Build heap (rearrange array)
+    // Build max-heap (rearrange array)
     for (int i = n / 2 - 1; i >= 0; i--)
         Heapify(arr, n, i);
 

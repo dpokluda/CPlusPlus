@@ -5,8 +5,8 @@ void MergeSort(std::vector<int> &arr, int left, int right);
 
 void Merge(std::vector<int> &arr, int left, int middle, int right);
 
-std::vector<int> Sort(const std::vector<int> data) {
-    std::vector<int> arr = data;
+std::vector<int> Sort(const std::vector<int> &data) {
+    std::vector<int> arr{data};
 
     MergeSort(arr, 0, arr.size() - 1);
     return arr;

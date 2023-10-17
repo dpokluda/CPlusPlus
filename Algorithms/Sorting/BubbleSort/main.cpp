@@ -3,8 +3,8 @@
 
 void Swap(std::vector<int> &data, int first, int second);
 
-std::vector<int> Sort(const std::vector<int> data) {
-    std::vector<int> arr = data;
+std::vector<int> Sort(const std::vector<int> &data) {
+    std::vector<int> arr{data};
 
     for (auto i = 0; i < arr.size(); i++) {
         for (auto j = 0; j < arr.size() - i - 1; j++) {
