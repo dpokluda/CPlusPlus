@@ -2,7 +2,7 @@
 #include "list.h"
 
 int main() {
-    List<int> list;
+    List<int> list = {1, 2, 3, 4};
 
     list.push_back(5);
     list.push_back(10);

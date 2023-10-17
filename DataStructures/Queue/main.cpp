@@ -13,8 +13,10 @@ int main() {
     std::cout << "Front of the queue: " << queue.front() << std::endl;
     std::cout << "Queue size: " << queue.size() << std::endl;
 
-    queue.dequeue();
+    auto value = queue.dequeue();
+    std::cout << "Dequeued value: " << value << std::endl;
     queue.enqueue(20);
+    std::cout << "Enqueued value: 20" << std::endl;
 
     std::cout << "After modifications, front of the queue: " << queue.front() << std::endl;
 

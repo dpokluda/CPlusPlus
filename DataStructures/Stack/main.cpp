@@ -8,13 +8,15 @@ int main() {
     stack.push(10);
     stack.push(15);
 
-    std::cout << "Top of the stack: " << stack.top() << std::endl;
+    std::cout << "Top of the stack: " << stack.peek() << std::endl;
     std::cout << "Stack size: " << stack.size() << std::endl;
 
-    stack.pop();
+    auto value = stack.pop();
+    std::cout << "Popped value: " << value << std::endl;
     stack.push(20);
+    std::cout << "Pushed value: " << 20 << std::endl;
 
-    std::cout << "After modifications, top of the stack: " << stack.top() << std::endl;
+    std::cout << "After modifications, top of the stack: " << stack.peek() << std::endl;
 
     return 0;
 }

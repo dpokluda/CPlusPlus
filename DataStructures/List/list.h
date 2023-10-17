@@ -22,7 +22,26 @@ private:
     }
 
 public:
+    // Default constructor
     List() : data(nullptr), size_(0), capacity_(0) {}
+
+    // Initializer list constructor
+    List(std::initializer_list<T> list) : List() {
+        resize(list.size());
+        for (const auto& value : list) {
+            push_back(value);
+        }
+    }
+
+    // copy constructor
+    List(const List& other) : List() {
+        *this = other;
+    }
+
+    // move assignment operator
+    List(List&& other) : List() {
+        *this = std::move(other);
+    }
 
     unsigned long size() const { return size_; }
     unsigned long capacity() const { return capacity_; }

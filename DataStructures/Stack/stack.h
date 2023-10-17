@@ -33,23 +33,15 @@ public:
         data[top_index++] = value;
     }
 
-    void pop() {
+    const T& pop() {
         if (empty()) {
             throw std::underflow_error("Stack is empty");
         }
 
-        --top_index;
+        return data[--top_index];
     }
 
-    T& top() {
-        if (empty()) {
-            throw std::underflow_error("Stack is empty");
-        }
-
-        return data[top_index - 1];
-    }
-
-    const T& top() const {
+    const T& peek() const {
         if (empty()) {
             throw std::underflow_error("Stack is empty");
         }

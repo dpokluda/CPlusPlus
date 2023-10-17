@@ -36,20 +36,22 @@ public:
     bool empty() const { return head == tail; }
 
     void enqueue(const T& value) {
-        if (size() == capacity_ - 1) {
+        if (size() == capacity_ - 1 || capacity_ == 0) {
             resize(capacity_ == 0 ? 1 : capacity_ * 2);
         }
 
         data[tail] = value;
-        tail = (tail + 1) % capacity_;
+        tail = tail + 1;
     }
 
-    void dequeue() {
+    const T& dequeue() {
         if (empty()) {
             throw std::underflow_error("Queue is empty");
         }
 
-        head = (head + 1) % capacity_;
+        auto old_head = head;
+        head = head + 1;
+        return data[old_head];
     }
 
     T& front() {
