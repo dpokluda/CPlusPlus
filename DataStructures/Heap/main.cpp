@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Heap.h"
+#include "heap.h"
 
 int main() {
     Heap heap;
