@@ -1,5 +1,5 @@
 #include <iostream>
-#include "list.h"
+#include "List.h"
 
 int main() {
     List<int> list = {1, 2, 3, 4};

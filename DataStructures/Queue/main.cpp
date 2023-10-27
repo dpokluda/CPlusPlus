@@ -1,7 +1,5 @@
 #include <iostream>
-#include <memory>
-#include <stdexcept>
-#include "queue.h"
+#include "Queue.h"
 
 int main() {
     Queue<int> queue;
