@@ -1,8 +1,9 @@
-//
-// Created by Pokluda, David on 10/16/23.
-//
+#include "Queue.h"
 
-#include <stdexcept>
-#include <memory>
 #include <iostream>
-#include "queue.h"
+
+template <typename T>
+void Queue<T>::Print() const
+{
+	std::cout << _data << "\n";
+}

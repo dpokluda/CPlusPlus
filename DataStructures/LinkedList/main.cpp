@@ -1,24 +1,30 @@
 #include <iostream>
-#include "linkedlist.h"
+
+#include "LinkedList.h"
 
 int main() {
-    LinkedList<int> list;
-    list.append(5);
-    list.append(10);
-    list.append(15);
+    LinkedList list = { 1, 2, 3 };
+    list.PushBack(5);
+    list.PushBack(10);
+    list.PushBack(15);
 
     std::cout << "Initial list: ";
-    list.print();
+    list.Print();
 
-    list.pushFront(1);
+    list.PushFront(0);
 
-    std::cout << "After adding 1 to the front: ";
-    list.print();
+    std::cout << "After adding 0 to the front: ";
+    list.Print();
 
-    list.remove(10);
+    list.Remove(10);
 
     std::cout << "After removing 10: ";
-    list.print();
+    list.Print();
+
+    std::cout << "Removing first element: " << list.PopFront() << "\n";
+    std::cout << "Removing last element: " << list.PopBack() << "\n";
+    std::cout << "Final queue:\n";
+    list.Print();
 
     return 0;
 }

@@ -1,70 +1,127 @@
 #pragma once
+
 #include <memory>
 #include <iostream>
 
 template<typename T>
-class LinkedList {
+class LinkedList
+{
 private:
-    struct Node {
-        T data;
-        std::unique_ptr<Node> next;
+	struct Node
+	{
+		T _data;
+		std::unique_ptr<Node> _next;
 
-        Node(T value) : data(value), next(nullptr) {}
-    };
+		Node(T value) : _data(value), _next(nullptr) {}
+	};
 
-    std::unique_ptr<Node> head;
+	std::unique_ptr<Node> _head;
 
 public:
-    LinkedList() : head(nullptr) {}
+	// constructors
+	LinkedList() : _head(nullptr) {}
+	LinkedList(std::initializer_list<T> list) : LinkedList()
+	{
+		for (auto value : list)
+		{
+			PushBack(value);
+		}
+	}
 
-    void pushFront(T value) {
-        auto newNode = std::make_unique<Node>(value);
-        if (head) {
-            newNode->next = std::move(head);
-        }
-        head = std::move(newNode);
-    }
+	void PushBack(const T& value)
+	{
+		auto newTail = std::make_unique<Node>(value);
+		if (!_head)
+		{
+			_head = std::move(newTail);
+			return;
+		}
 
-    void append(T value) {
-        auto newNode = std::make_unique<Node>(value);
-        if (!head) {
-            head = std::move(newNode);
-            return;
-        }
+		auto current = _head.get();
+		while (current->_next)
+		{
+			current = current->_next.get();
+		}
+		current->_next = std::move(newTail);
+	}
 
-        Node* current = head.get();
-        while (current->next) {
-            current = current->next.get();
-        }
-        current->next = std::move(newNode);
-    }
+	void PushFront(const T& value)
+	{
+		auto newHead = std::make_unique<Node>(value);
+		if (_head)
+		{
+			newHead->_next = std::move(_head);
+		}
+		_head = std::move(newHead);
+	}
 
-    bool remove(T value) {
-        if (!head) return false;
+	T PopBack()
+	{
+		if (!_head) return false;
 
-        if (head->data == value) {
-            head = std::move(head->next);
-            return true;
-        }
+		T data;
+		if (!_head->_next)
+		{
+			data = _head->_data;
+			_head.reset();
+		}
+		else
+		{
+			auto current = _head.get();
+			while (current->_next->_next)
+			{
+				current = current->_next.get();
+			}
+			data = current->_next->_data;
+			current->_next.reset();
+		}
 
-        Node* current = head.get();
-        while (current->next && current->next->data != value) {
-            current = current->next.get();
-        }
+		return data;
+	}
 
-        if (current->next) {
-            current->next = std::move(current->next->next);
-            return true;
-        }
-        return false;
-    }
+	T PopFront()
+	{
+		if (!_head) return false;
 
-    void print() const {
-        Node* current = head.get();
-        while (current) {
-            std::cout << current->data << " -> ";
-            current = current->next.get();
-        }
-        std::cout << "nullptr" << std::endl;
-    }
+		auto data = _head->_data;
+		_head = std::move(_head->_next);
+
+		return data;
+	}
+
+	bool Remove(const T& value)
+	{
+		if (!_head) return false;
+
+		if (_head->_data == value)
+		{
+			_head = std::move(_head->_next);
+			return true;
+		}
+
+		auto current = _head.get();
+		while (current->_next && current->_next->_data != value)
+		{
+			current = current->_next.get();
+		}
+
+		if (current->_next->_data == value)
+		{
+			current->_next = std::move(current->_next->_next);
+			return true;
+		}
+
+		return false;
+	}
+
+	void Print() const
+	{
+		auto current = _head.get();
+		while (current)
+		{
+			std::cout << current->_data << " -> ";
+			current = current->_next.get();
+		}
+		std::cout << "nullptr\n";
+	}
 };

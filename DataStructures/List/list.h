@@ -1,87 +1,90 @@
 #pragma once
 
 #include <memory>
+#include <stdexcept>
 
 template<typename T>
-class List {
+class List
+{
 private:
-    std::unique_ptr<T[]> data;
-    unsigned long size_;
-    unsigned long capacity_;
-
-    void resize(unsigned long new_capacity) {
-        if (new_capacity < size_) return;
-
-        std::unique_ptr<T[]> new_data(new T[new_capacity]);
-        for (unsigned long i = 0; i < size_; ++i) {
-            new_data[i] = std::move(data[i]);
-        }
-
-        data = std::move(new_data);
-        capacity_ = new_capacity;
-    }
+	std::unique_ptr<T[]> _data;
+	unsigned long _size;
+	unsigned long _capacity;
 
 public:
-    // Default constructor
-    List() : data(nullptr), size_(0), capacity_(0) {}
+	List() : _data(nullptr), _size(0), _capacity(0) {}
+	List(std::initializer_list<T> list) : List()
+	{
+		Resize(list.size());
+		for (const auto& value : list)
+		{
+			PushBack(value);
+		}
+	}
 
-    // Initializer list constructor
-    List(std::initializer_list<T> list) : List() {
-        resize(list.size());
-        for (const auto& value : list) {
-            push_back(value);
-        }
-    }
+	bool IsEmpty() const { return _size == 0; }
 
-    // copy constructor
-    List(const List& other) : List() {
-        *this = other;
-    }
+	unsigned long GetSize() const { return _size; }
 
-    // move assignment operator
-    List(List&& other) : List() {
-        *this = std::move(other);
-    }
+	unsigned long GetCapacity() const { return _capacity; }
 
-    unsigned long size() const { return size_; }
-    unsigned long capacity() const { return capacity_; }
-    bool empty() const { return size_ == 0; }
+	void PushBack(const T& value)
+	{
+		if (_size == _capacity)
+		{
+			Resize(_capacity == 0 ? 1 : _capacity * 2);
+		}
 
-    void push_back(const T& value) {
-        if (size_ == capacity_) {
-            resize(capacity_ == 0 ? 1 : capacity_ * 2);
-        }
+		_data[_size++] = value;
+	}
 
-        data[size_++] = value;
-    }
+	T& PopBack()
+	{
+		if (IsEmpty())
+		{
+			throw std::underflow_error("List is empty");
+		}
 
-    void pop_back() {
-        if (empty()) {
-            throw std::underflow_error("List is empty");
-        }
+		return _data[--_size];
+	}
 
-        --size_;
-    }
+	void Clear()
+	{
+		_data.reset();
+		_size = 0;
+		_capacity = 0;
+	}
 
-    T& operator[](unsigned long index) {
-        if (index >= size_) {
-            throw std::out_of_range("Index out of range");
-        }
+	T& operator[](unsigned long index)
+	{
+		if (index >= _size) {
+			throw std::out_of_range("Index out of range");
+		}
 
-        return data[index];
-    }
+		return _data[index];
+	}
 
-    const T& operator[](unsigned long index) const {
-        if (index >= size_) {
-            throw std::out_of_range("Index out of range");
-        }
+	const T& operator[](unsigned long index) const
+	{
+		if (index >= _size) {
+			throw std::out_of_range("Index out of range");
+		}
 
-        return data[index];
-    }
+		return _data[index];
+	}
 
-    void clear() {
-        data.reset();
-        size_ = 0;
-        capacity_ = 0;
-    }
+private:
+	void Resize(unsigned long newCapacity)
+	{
+		if (newCapacity <= _size) return;
+
+		std::unique_ptr<T[]> newData(new T[newCapacity]);
+		for (unsigned long i = 0; i < _size; i++)
+		{
+			newData[i] = std::move(_data[i]);
+		}
+
+		_data = std::move(newData);
+		_capacity = newCapacity;
+	}
 };

@@ -1,24 +1,26 @@
 #include <iostream>
-#include <memory>
-#include <stdexcept>
-#include "queue.h"
+
+#include "Queue.h"
 
 int main() {
     Queue<int> queue;
 
-    queue.enqueue(5);
-    queue.enqueue(10);
-    queue.enqueue(15);
+    if (queue.IsEmpty())
+		std::cout << "Queue is empty." << std::endl;
 
-    std::cout << "Front of the queue: " << queue.front() << std::endl;
-    std::cout << "Queue size: " << queue.size() << std::endl;
+    queue.Enqueue(5);
+    queue.Enqueue(10);
+    queue.Enqueue(15);
 
-    auto value = queue.dequeue();
+    std::cout << "Front of the queue: " << queue.Peek() << std::endl;
+    std::cout << "Queue size: " << queue.GetSize() << std::endl;
+
+    auto value = queue.Dequeue();
     std::cout << "Dequeued value: " << value << std::endl;
-    queue.enqueue(20);
+    queue.Enqueue(20);
     std::cout << "Enqueued value: 20" << std::endl;
 
-    std::cout << "After modifications, front of the queue: " << queue.front() << std::endl;
+    std::cout << "After modifications, front of the queue: " << queue.Peek() << std::endl;
 
     return 0;
 }

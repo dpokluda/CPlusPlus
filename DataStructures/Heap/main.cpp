@@ -1,19 +1,27 @@
 #include <iostream>
-#include "heap.h"
+#include "Heap.h"
 
-int main() {
-    Heap heap;
+int main()
+{
+    Heap<int> heap;
+    if (heap.IsEmpty())
+        std::cout << "Heap is empty.";
 
-    heap.insert(3);
-    heap.insert(5);
-    heap.insert(1);
-    heap.insert(10);
+    heap.Enqueue(3);
+    heap.Enqueue(1);
+    heap.Enqueue(5);
+    heap.Enqueue(10);
+    heap.Enqueue(2);
+    heap.Enqueue(4);
 
-    std::cout << "Extracted from max-heap: ";
-    while (!heap.isEmpty()) {
-        std::cout << heap.extractMax() << " ";
-    }
-    std::cout << std::endl;
+    std::cout << "After populating the heap, the heap content is:\n";
+    heap.Print();
 
-    return 0;
+    auto max = heap.Dequeue();
+    std::cout << "\nMax value: " << max << "\n";
+    heap.Print();
+
+    max = heap.Dequeue();
+    std::cout << "\nMax value: " << max << "\n";
+    heap.Print();
 }

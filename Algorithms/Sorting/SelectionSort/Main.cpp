@@ -1,20 +1,26 @@
 #include <iostream>
 #include <vector>
 
-void Swap(std::vector<int>& data, int first, int second);
+void Swap(std::vector<int>& arr, int first, int second);
 
 std::vector<int> Sort(const std::vector<int>& data)
 {
 	std::vector<int> arr{data};
 
-	for (auto i = 0; i < arr.size(); i++)
+	for (int i = 0; i < arr.size() - 2; i++)
 	{
-		for (auto j = 0; j < arr.size() - i - 1; j++)
+		auto minAt = i;
+		for (int j = i; j < arr.size(); j++)
 		{
-			if (arr[j] > arr[j + 1])
+			if (arr[j] < arr[minAt])
 			{
-				Swap(arr, j, j + 1);
+				minAt = j;
 			}
+		}
+
+		if (i != minAt)
+		{
+			Swap(arr, i, minAt);
 		}
 	}
 
@@ -30,7 +36,7 @@ void Swap(std::vector<int>& data, int first, int second)
 
 int main()
 {
-	std::cout << "Bubble sort:" << std::endl;
+	std::cout << "Selection sort:" << std::endl;
 	std::vector<int> data = {5, 4, 3, 2, 1};
 
 	auto sorted = Sort(data);

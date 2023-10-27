@@ -1,79 +1,78 @@
 #pragma once
-#include <memory>
 
 template<typename T>
-class Queue {
+class Queue
+{
 private:
-    std::unique_ptr<T[]> data;
-    unsigned long head;
-    unsigned long tail;
-    unsigned long capacity_;
-
-    void resize(unsigned long new_capacity) {
-        std::unique_ptr<T[]> new_data{new T[new_capacity]};
-
-        unsigned long current_size = size();
-        for (unsigned long i = 0; i < current_size; ++i) {
-            new_data[i] = std::move(data[(head + i) % capacity_]);
-        }
-
-        head = 0;
-        tail = current_size;
-        data = std::move(new_data);
-        capacity_ = new_capacity;
-    }
+	std::unique_ptr<T[]> _data;
+	unsigned long _capacity;
+	unsigned long _head; // where the dequeue from
+	unsigned long _tail; // next available index for newly enqueued items
 
 public:
-    Queue() : data(nullptr), head(0), tail(0), capacity_(0) {}
+	Queue() : _data(nullptr), _capacity(0), _head(0), _tail(0) {}
 
-    unsigned long size() const {
-        if (tail >= head)
-            return tail - head;
-        return capacity_ - head + tail;
-    }
+	bool IsEmpty() const
+	{
+		return _head == _tail;
+	}
 
-    unsigned long capacity() const { return capacity_; }
-    bool empty() const { return head == tail; }
+	unsigned long GetSize() const
+	{
+		return _tail - _head;
+	}
 
-    void enqueue(const T& value) {
-        if (size() == capacity_ - 1 || capacity_ == 0) {
-            resize(capacity_ == 0 ? 1 : capacity_ * 2);
-        }
+	void Enqueue(const T& value)
+	{
+		if (_tail == _capacity)
+		{
+			unsigned long newCapacity = _capacity;
+			if (_capacity == 0)
+			{
+				newCapacity = 1;
+			}
+			else if (_tail - _head >= _capacity / 2)
+			{
+				newCapacity *= 2;
+			}
+			Resize(newCapacity);
+		}
+		_data[_tail++] = value;
+	}
 
-        data[tail] = value;
-        tail = tail + 1;
-    }
+	T Dequeue()
+	{
+		if (IsEmpty())
+		{
+			throw std::underflow_error("Queue is empty");
+		}
 
-    const T& dequeue() {
-        if (empty()) {
-            throw std::underflow_error("Queue is empty");
-        }
+		return _data[_head++];
+	}
 
-        auto old_head = head;
-        head = head + 1;
-        return data[old_head];
-    }
+	T Peek() const
+	{
+		if (IsEmpty())
+		{
+			throw std::underflow_error("Queue is empty");
+		}
 
-    T& front() {
-        if (empty()) {
-            throw std::underflow_error("Queue is empty");
-        }
+		return _data[_head];
+	}
 
-        return data[head];
-    }
+private:
+	void Resize(unsigned long newCapacity)
+	{
+		std::unique_ptr<T[]> newData(new T[newCapacity]);
+		for(unsigned long i = _head; i < _tail; i++)
+		{
+			newData[i - _head] = _data[i];
+		}
 
-    const T& front() const {
-        if (empty()) {
-            throw std::underflow_error("Queue is empty");
-        }
-
-        return data[head];
-    }
-
-    void clear() {
-        data.reset();
-        head = 0;
-        tail = 0;
-        capacity_ = 0;
-    }
+		_data = std::move(newData);
+		_capacity = newCapacity;
+		_tail = _tail - _head;
+		_head = 0;
+	}
 };
+
