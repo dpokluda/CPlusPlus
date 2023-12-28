@@ -9,6 +9,9 @@ private:
 	unsigned long _size;
 
 public:
+	Heap() : _capacity(0), _size(0)
+	{}
+
 	bool IsEmpty() const
 	{
 		return _size == 0;

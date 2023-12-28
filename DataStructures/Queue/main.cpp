@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Queue.h"
+#include "queue.h"
 
 int main() {
     Queue<int> queue;

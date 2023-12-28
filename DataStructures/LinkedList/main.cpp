@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "LinkedList.h"
+#include "linkedlist.h"
 
 int main() {
     LinkedList list = { 1, 2, 3 };
