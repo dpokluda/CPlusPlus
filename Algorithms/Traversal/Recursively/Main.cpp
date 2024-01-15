@@ -8,7 +8,7 @@ void PreOrder(const Node<int>& root)
 {
     std::cout << root.data() << " ";
 
-	if (root.left != nullptr)
+    if (root.left != nullptr)
     {
         PreOrder(*root.left);
     }
@@ -46,7 +46,7 @@ void PostOrder(const Node<int>& root)
         PostOrder(*root.right);
     }
 
-	std::cout << root.data() << " ";
+    std::cout << root.data() << " ";
 
 }
 
@@ -56,7 +56,7 @@ void LevelOrder(const Node<int>& root)
     nodes.push(std::make_shared<Node<int>>(root));
 
     while (!nodes.empty())
-	{
+    {
         const auto node = nodes.front();
         nodes.push(node->left);
         nodes.push(node->right);
