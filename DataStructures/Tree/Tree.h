@@ -73,19 +73,33 @@ private:
 		InorderTraversalRecursively(node->right.get());
 	}
 
-	void PrintTree(const TreeNode<T>& root) const
+	void PrintTree(const TreeNode<T>* root) const
 	{
-		std::queue<std::shared_ptr<TreeNode<T>>> currentLevel;
-		std::queue<std::shared_ptr<TreeNode<T>>> nextLevel;
+		auto currentLevel = std::make_unique<std::queue<const TreeNode<T>*>>();
+		auto nextLevel = std::make_unique<std::queue<const TreeNode<T>*>>();
 
-		currentLevel.push_back(root);
-		while (currentLevel.size() > 0 || nextLevel.size() > 0)
+		currentLevel->push(root);
+		while (!currentLevel->empty() || !nextLevel->empty())
 		{
-			if (currentLevel.size() == 0)
+			if (currentLevel->empty())
 			{
-				currentLevel = nextLevel.;
-
+				currentLevel = std::move(nextLevel);
+				nextLevel = std::make_unique<std::queue<const TreeNode<T>*>>();
+				std::cout << '\n';
 			}
+
+			const auto node = currentLevel->front();
+			std::cout << node->value << " ";
+
+			if (node->left)
+			{
+				nextLevel->push(node->left.get());
+			}
+			if (node->right)
+			{
+				nextLevel->push(node->right.get());
+			}
+			currentLevel->pop();
 		}
 	}
 };

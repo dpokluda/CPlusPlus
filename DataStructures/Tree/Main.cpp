@@ -20,14 +20,14 @@ int main()
     std::cout << "Tree:\n";
     tree.PrintTree();
 
-    std::cout << "UNBALANCED:\n";
+    std::cout << "\nUNBALANCED:\n";
     BinaryTree<int> unbalanced;
     for (int i = 9; i > 0; i--)
     {
         unbalanced.Insert(i);
     }
-    tree.Print(); // Expected: 1 3 4 5 7 8 9
+    unbalanced.Print(); // Expected: 1 3 4 5 7 8 9
 
     std::cout << "Tree:\n";
-    tree.PrintTree();
+    unbalanced.PrintTree();
 }
