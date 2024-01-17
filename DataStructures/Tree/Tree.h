@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <iostream>
+#include <queue>
 
 template <typename T>
 struct TreeNode
@@ -37,6 +38,12 @@ public:
 		std::cout << std::endl;
 	}
 
+	void PrintTree() const
+	{
+		PrintTree(root.get());
+		std::cout << std::endl;
+	}
+
 private:
 	std::unique_ptr<TreeNode<T>> InsertRecursively(std::unique_ptr<TreeNode<T>>& current, const T& value)
 	{
@@ -64,5 +71,21 @@ private:
 		InorderTraversalRecursively(node->left.get());
 		std::cout << node->value << " ";
 		InorderTraversalRecursively(node->right.get());
+	}
+
+	void PrintTree(const TreeNode<T>& root) const
+	{
+		std::queue<std::shared_ptr<TreeNode<T>>> currentLevel;
+		std::queue<std::shared_ptr<TreeNode<T>>> nextLevel;
+
+		currentLevel.push_back(root);
+		while (currentLevel.size() > 0 || nextLevel.size() > 0)
+		{
+			if (currentLevel.size() == 0)
+			{
+				currentLevel = nextLevel.;
+
+			}
+		}
 	}
 };
